@@ -1,31 +1,42 @@
-import { StyleSheet } from 'react-native';
-
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+import { StyleSheet, View, TextInput, Button } from 'react-native';
+import CustomBottomSheet from '../../components/CustomBottomSheet';
+import { useRef, useState } from 'react';
+import BottomSheet from '@gorhom/bottom-sheet';
 
 export default function TabTwoScreen() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/two.tsx" />
-    </View>
-  );
+	const bottomSheetRef = useRef<BottomSheet>(null);
+	const [title, setTitle] = useState('Passing my data 🔥');
+
+	const handleClosePress = () => bottomSheetRef.current?.close();
+	const handleOpenPress = () => bottomSheetRef.current?.expand();
+
+	return (
+		<View style={styles.container}>
+			<TextInput style={styles.input} onChangeText={setTitle} value={title} />
+			<Button title="Open" onPress={handleOpenPress} />
+			<Button title="Close" onPress={handleClosePress} />
+			<CustomBottomSheet ref={bottomSheetRef} title={title} />
+		</View>
+	);
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
+	container: {
+		flex: 1,
+		alignItems: 'center',
+		justifyContent: 'center'
+	},
+	title: {
+		fontSize: 20,
+		fontWeight: 'bold'
+	},
+	input: {
+		width: '80%',
+		height: 50,
+		borderWidth: 1,
+		borderColor: '#ccc',
+		borderRadius: 10,
+		padding: 10,
+		marginBottom: 20
+	}
 });

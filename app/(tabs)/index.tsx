@@ -1,31 +1,47 @@
-import { StyleSheet } from 'react-native';
-
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+import { BottomSheetModal, useBottomSheetModal } from '@gorhom/bottom-sheet';
+import { useRef } from 'react';
+import { StyleSheet, View, Button } from 'react-native';
+import CustomBottomSheetModal from '../../components/CustomBottomSheetModal';
 
 export default function TabOneScreen() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
-    </View>
-  );
+	const bottomSheetRef = useRef<BottomSheetModal>(null);
+	const { dismiss } = useBottomSheetModal();
+
+	const handlePresentModalPress = () => bottomSheetRef.current?.present();
+
+	return (
+		<View style={styles.container}>
+			<CustomBottomSheetModal ref={bottomSheetRef} />
+			<Button title="Present Modal" onPress={handlePresentModalPress} />
+			<Button title="Dismiss Modal" onPress={() => dismiss()} />
+		</View>
+	);
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
+	container: {
+		flex: 1,
+		alignItems: 'center'
+	},
+	contentContainer: {
+		// flex: 1,
+		alignItems: 'center'
+	},
+	containerHeadline: {
+		fontSize: 24,
+		fontWeight: '600',
+		padding: 20,
+		color: '#fff'
+	},
+	input: {
+		marginTop: 8,
+		marginHorizontal: 16,
+		marginBottom: 10,
+		borderRadius: 10,
+		fontSize: 16,
+		lineHeight: 20,
+		padding: 8,
+		backgroundColor: 'rgba(151, 151, 151, 0.25)',
+		color: '#fff'
+	}
 });
